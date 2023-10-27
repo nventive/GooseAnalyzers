@@ -1,39 +1,33 @@
-# Open Source Project Template
+# GooseAnalyzers
 
-This repository contains a template to seed a repository for an Open Source
-project.
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](LICENSE)
 
-## How to use this template
-
-1. Check out this repository
-2. Delete the `.git` folder
-3. Git init this repository and start working on your project!
-4. Prior to submitting your request for publication, make sure to review the
-   [Open Source guidelines for publications](https://nventive.visualstudio.com/Internal/_wiki/wikis/Internal_wiki?wikiVersion=GBwikiMaster&pagePath=%2FOpen%20Source%2FPublishing&pageId=7120).
-
-## Features (to keep as-is, configure or remove)
-- [Mergify](https://mergify.io/) is configured. You can edit or remove [.mergify.yml](/.mergify.yml).
-
-The following is the template for the final README.md file:
-
----
-
-# Project Title
-
-{Project tag line}
-
-{Small description of the purpose of the project}
-
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+GooseAnalyzers is a collection of .NET Analyzers for your C# code.
 
 ## Getting Started
 
-{Instructions to quickly get started using the project: pre-requisites, packages
-to install, sample code, etc.}
+1. Install the `GooseAnalyzers` NuGet package in your project.
+
+1. Optionally, set `TreatWarningsAsErrors` to `true` when in `Release` configuration in your project files.
+   ```xml
+   <TreatWarningsAsErrors Condition="'$(Configuration)'=='Release'">true</TreatWarningsAsErrors>
+   ```
+   We recommend this so that you get warnings that don't block your dev loop, but errors that block your CI/CD pipelines.
+
+## List of Analyzers
+
+Identifier | Name | Description
+-|-|-
+`GOOSE001` | XmlDocumentationRequiredSuppressor | Limits the scope of [CS1591](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/cs1591) and [SA1600](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1600.md) to interfaces.<br/>
 
 ## Features
 
-{More details/listing of features of the project}
+### `GOOSE001` - XML Documentation on Interfaces
+The `GOOSE001` analyzer is a `DiagnosticSuppressor` for the [CS1591](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/cs1591) and [SA1600](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1600.md) rules that demand XML documentation on all public types and members.
+This is a good practice, but it can unrealistic in some contexts. 
+We think that in those cases, having xml documentation on interfaces is a good middle ground.
+
+We recommend you enable the `CS1591` or `SA1600` rules in your project and use this suppressor to limit their scope to interfaces or disable this suppressor.
 
 ## Breaking Changes
 
