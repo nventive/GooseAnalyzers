@@ -1,0 +1,17 @@
+root = true
+
+[*]
+indent_style = tab
+end_of_line = crlf
+charset = utf-8-bom
+trim_trailing_whitespace = true
+
+# Code files
+[*.{cs,tt,xaml,xml,md,ps1}]
+indent_size = 4
+insert_final_newline = true
+
+# SA1633:The file header is missing or not located at the top of the file
+dotnet_diagnostic.SA1633.severity = none
+# SA1649: File name should match first type name
+dotnet_diagnostic.SA1649.severity = suggestion
