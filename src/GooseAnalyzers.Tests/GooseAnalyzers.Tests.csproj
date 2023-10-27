@@ -5,7 +5,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);SA1600</NoWarn>
+		<NoWarn>$(NoWarn);</NoWarn>
+		<!--<WarningsAsErrors>CS1591</WarningsAsErrors>-->
 		<!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
 
 		<IsPackable>false</IsPackable>

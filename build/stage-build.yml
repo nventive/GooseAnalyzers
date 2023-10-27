@@ -1,0 +1,74 @@
+﻿steps:
+- task: gitversion/setup@0
+  inputs:
+    versionSpec: '5.10.1'
+  displayName: 'Install GitVersion'
+
+- task: gitversion/execute@0
+  inputs:
+    useConfigFile: true
+    configFilePath: build/gitversion.yml
+  displayName: 'Calculate version'
+
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet $(NUGET_VERSION)'
+  inputs:
+    versionSpec: $(NUGET_VERSION)
+    checkLatest: false
+
+- task: MSBuild@1
+  displayName: 'Restore solution packages'
+  inputs:
+    solution: $(Build.SourcesDirectory)/src/$(SolutionFileName)
+    msbuildLocationMethod: version
+    msbuildVersion: latest
+    msbuildArchitecture: x86
+    msbuildArguments: >
+      /t:restore
+    configuration: $(ApplicationConfiguration)
+    platform: $(ApplicationPlatform)
+    clean: false
+    maximumCpuCount: true
+    restoreNugetPackages: false
+    logProjectEvents: false
+    createLogFile: false
+
+- task: MSBuild@1
+  displayName: 'Build solution in $(ApplicationConfiguration) | $(ApplicationPlatform)'
+  inputs:
+    solution: $(Build.SourcesDirectory)/src/$(SolutionFileName)
+    msbuildLocationMethod: version
+    msbuildVersion: latest
+    msbuildArchitecture: x86
+    configuration: $(ApplicationConfiguration)
+    platform: $(ApplicationPlatform)
+    clean: false
+    maximumCpuCount: true
+    restoreNugetPackages: false
+    logProjectEvents: false
+    createLogFile: false
+    msbuildArguments: >  # Set the version of the packages, will have no effect on application projects (Heads).
+      /p:PackageVersion=$(GitVersion.SemVer)
+      /p:ContinousIntegrationBuild=true
+      
+- script: dotnet test src --no-build --configuration $(ApplicationConfiguration) --logger trx --collect "Code coverage"
+  displayName: 'Run tests'
+  condition: and(succeeded(), eq(variables['ApplicationPlatform'], 'NuGet'))
+
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifact $(ApplicationConfiguration)'
+  inputs:
+    PathtoPublish: $(PackageOutputPath)
+    ArtifactName: $(ArtifactName)
+    ArtifactType: Container
+
+- task: PostBuildCleanup@3
+  displayName: 'Post-Build cleanup :  Cleanup files to keep build server clean!'
+  condition: always()
