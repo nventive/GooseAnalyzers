@@ -13,7 +13,6 @@
 		<AssemblyName>GooseAnalyzers</AssemblyName>
 		<PackageId>GooseAnalyzers</PackageId>
 		<Description>A collection of .NET analyzers and DiagnosticSuppressors for C#.</Description>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>analyzers;roslyn;diagnostics</PackageTags>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -21,9 +20,6 @@
 
 		<!--Needed for Source Link support -->
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
 	</PropertyGroup>
 
@@ -43,6 +39,11 @@
 		<!--Needed for Source Link support -->
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
+
+	<PropertyGroup>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<NoPackageAnalysis>true</NoPackageAnalysis>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
