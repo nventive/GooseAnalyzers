@@ -14,6 +14,8 @@ variables:
   value: GooseAnalyzers.sln
 - name: IsReleaseBranch # Should this branch name use the release stage
   value: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
+- name: windowsHostedAgentImage
+  value: 'windows-2022'
 
 stages:
 - stage: Build
@@ -28,7 +30,7 @@ stages:
           GeneratePackageOnBuild: true
 
     pool:
-      vmImage : windows-2022
+      vmImage : $(windowsHostedAgentImage)
 
     variables:
     - name: PackageOutputPath # Path where nuget packages will be copied to.
@@ -47,7 +49,7 @@ stages:
   - job: Publish_NuGet_External
 
     pool:
-      vmImage : windows-2022
+      vmImage : $(windowsHostedAgentImage)
 
     workspace:
       clean: all # Cleanup the workspaca before starting
