@@ -13,15 +13,26 @@ GitHub Issue: #
  - [ ] Documentation content changes
  - [ ] Other, please describe:
 
-
 ## What is the current behavior?
 <!-- Please describe the current behavior that you are modifying,
      or link to a relevant issue. -->
 
-
 ## What is the new behavior?
 <!-- Please describe the new behavior after your modifications. -->
 
+## Impact on version
+<!-- Please select one or more based on your commits. -->
+
+- [ ] **Major** (Public API was modified.)
+  - Analysers were removed or renamed.
+- [ ] **Minor** (Public API was extended.)
+  - Analyzers were added.
+- [ ] **Patch** (Public API was unchanged.)
+  - A bug in behavior was fixed.
+  - Documentation was changed.
+- [ ] **None** (The collection of Analyzers is unchanged.)
+  - Only code under the `build` folder was changed.
+  - Only code under the `.github` folder was changed.
 
 ## Checklist
 
@@ -30,6 +41,7 @@ Please check that your PR fulfills the following requirements:
 - [ ] Documentation has been added/updated.
 - [ ] Automated tests for the changes have been added/updated.
 - [ ] Updated [BREAKING_CHANGES.md](../BREAKING_CHANGES.md) (if you introduced a breaking change).
+- [ ] Your conventional commits are aligned with the **Impact on version** section.
 
 <!-- If this PR contains a breaking change, please describe the impact
      and migration path for existing applications below. -->
